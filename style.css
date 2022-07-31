@@ -14,25 +14,27 @@
 
 body {
   display: flex;
+  min-height: 100vh;
+  overflow: hidden;
 }
 
-.logo {
+header {
   display: flex;
   gap: 16px;
   justify-content: center;
 }
 
-.logo-text {
+.logo {
   align-self: center;
 }
 
-.logo-text p {
+.logo p {
   text-align: center;
 }
 
 form {
   color: white;
-  height: 100vh;
+  min-height: 100%;
   width: 35%;
   background-color: var(--main-color);
   padding: 32px;
@@ -105,4 +107,91 @@ main {
   height: 100%;
   width: 65%;
   background-color: black;
+}
+
+.right-side {
+  display: flex;
+  flex-direction: column;
+  padding: 32px;
+  width: 65%;
+  background-color: hsl(220, 20%, 97%);
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+nav {
+  display: flex;
+  justify-content: space-between;
+}
+
+nav button {
+  width: 17%;
+  height: 75px;
+  background-color: white;
+  border: none;
+  border-radius: 16px;
+  filter: drop-shadow(2px 2px 16px rgba(0, 0, 0, 0.25));
+}
+
+nav button h3 {
+  margin-bottom: 15px;
+}
+
+.search-wrapper {
+  display: flex;
+  gap: 8px;
+  margin: 32px 0;
+}
+
+.search-wrapper input {
+  width: 100%;
+  border: solid 2px var(--main-color);
+  height: 42px;
+  border-radius: 64px;
+  padding-left: 10px;
+}
+
+.search-wrapper button {
+  width: 64px;
+  height: 42px;
+  border-radius: 64px;
+}
+
+.selected button {
+  background-color: var(--main-color);
+  color: white;
+}
+
+.cards-container {
+  width: 100%;
+  height: 500px;
+  display: flex;
+  flex-wrap: wrap;
+  overflow: hidden;
+  overflow-y: scroll;
+  scrollbar-width: auto;
+  scrollbar-color: #360cdf #787373;
+}
+
+.cards-container::-webkit-scrollbar {
+  width: 10px;
+}
+
+.cards-container::-webkit-scrollbar-track {
+  background: hsl(0, 0%, 85%);
+  border-radius: 64px;
+}
+
+.cards-container::-webkit-scrollbar-thumb {
+  background-color: var(--main-color);
+  border-radius: 64px;
+}
+
+.card {
+  width: 45%;
+  height: 302px;
+  display: flex;
+  flex-direction: column;
+  border: solid black 1px;
+  margin: 15px;
 }
