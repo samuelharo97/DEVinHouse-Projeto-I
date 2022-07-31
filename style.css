@@ -185,11 +185,31 @@ nav button h3 {
   border-radius: 64px;
 }
 
+.card h2 {
+  text-align: center;
+}
+
 .card {
+  filter: drop-shadow(2px 2px 5px rgba(0, 0, 0, 0.25));
   width: 45%;
-  height: 302px;
+  height: 350px;
   display: flex;
+  gap: 16px;
+  border-radius: 16px;
   flex-direction: column;
-  border: solid black 1px;
   margin: 15px;
+  padding: 16px;
+  background-color: white;
+}
+
+.card-buttons {
+  display: flex;
+  gap: 8px;
+  align-self: flex-end;
+  margin-top: auto;
+}
+
+.card-buttons button {
+  background: transparent;
+  border: none;
 }
