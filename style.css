@@ -169,12 +169,10 @@ nav button h3 {
   flex-wrap: wrap;
   overflow: hidden;
   overflow-y: scroll;
-  scrollbar-width: auto;
-  scrollbar-color: #360cdf #787373;
 }
 
 .cards-container::-webkit-scrollbar {
-  width: 10px;
+  width: 8px;
 }
 
 .cards-container::-webkit-scrollbar-track {
