@@ -12,7 +12,6 @@ form.addEventListener('submit', event => {
   event = event || window.event
   event.preventDefault()
 })
-
 class Cards {
   constructor(title, language, category, description, video) {
     this.title = title
@@ -20,16 +19,30 @@ class Cards {
     this.category = category
     this.description = description
     this.video = video
-    this.RenderCard()
+    this.id = this.GenerateId()
+    this.isValid = this.validateInputs(
+      this.title,
+      this.language,
+      this.category,
+      this.description,
+      this.video
+    )
+    if (this.isValid) {
+      this.RenderCard()
+    }
+  }
+
+  GenerateId() {
+    return new Date().getTime()
   }
 
   RenderCard() {
     const cardsContainer = document.querySelector('.cards-container')
-    cardsContainer.innerHTML = /*html*/ `
-        <div class="card">
-        <h2 class="cardTitle">${this.title}</h2>
+    cardsContainer.innerHTML += /*html*/ `
+      <div class="card" id="${this.id}">
+            <h2 class="cardTitle">${this.title}</h2>
             <h4 class="cardSkill">Linguagem/Skill: ${this.language}</h4>
-            <h4 class="cardCategory">Categoria: ${this.category.textContent}</h4>
+            <h4 class="cardCategory">Categoria: ${this.category}</h4>
             <p class="cardContent">
                 ${this.description}
             </p>
@@ -40,14 +53,47 @@ class Cards {
             <button class="cardEdit">
              <img src="/assets/images/edit-card.png" alt="editar a dica" />
             </button>
-            <button class="cardVideo">
-              <img
-                src="/assets/images/video-card.png"
-                alt="video sobre a dica"
-              />
-            </button>
+            <button class="videoCard hidden">
+              <a href="${this.video}" target="_blank"
+                ><img
+                  src="/assets/images/video-card.png"
+                  alt="video sobre a dica"
+              /></a>
           </div>
-        </div>`
+      </div>`
+    console.log(this.video)
+    if (this.video != '') {
+      const videoButton = document.querySelector('.videoCard')
+      videoButton.classList.remove('hidden')
+    }
+  }
+
+  validateInputs(title, language, category, description, video) {
+    let validation = true
+
+    if (title.length < 8 || title.length > 64 || title.value == '') {
+      validation = false
+    } else if (
+      language.length < 4 ||
+      language.length > 16 ||
+      language.value == ''
+    ) {
+      validation = false
+    } else if (category === 'none') {
+      alert('Você precisa selecionar uma categoria.')
+      validation = false
+    } else if (
+      description.length < 32 ||
+      description.length > 512 ||
+      description.value == ''
+    ) {
+      alert(
+        'A descrição é obrigatória e precisa ter entre 32 e 512 caracteres.'
+      )
+      validation = false
+    } else if (!isUrlValid(video) && video.value != '') {
+    }
+    return validation
   }
 }
 
@@ -73,16 +119,25 @@ function update() {}
 function validateInputs(title, language, category, description, video) {
   let validation = true
 
-  if (title.length < 8 || title.length > 64) {
+  if (title.length < 8 || title.length > 64 || title.value == '') {
     validation = false
-  } else if (language.length < 4 || language.length > 16) {
+  } else if (
+    language.length < 4 ||
+    language.length > 16 ||
+    language.value == ''
+  ) {
     validation = false
   } else if (category === 'none') {
+    alert('Você precisa selecionar uma categoria.')
     validation = false
-  } else if (description.length < 32 || description.length > 512) {
+  } else if (
+    description.length < 32 ||
+    description.length > 512 ||
+    description.value == ''
+  ) {
+    alert('A descrição é obrigatória e precisa ter entre 32 e 512 caracteres.')
     validation = false
-  } else if (!isUrlValid(video)) {
-    video = ''
+  } else if (!isUrlValid(video) && video.value != '') {
   }
   return validation
 }
@@ -90,10 +145,11 @@ function validateInputs(title, language, category, description, video) {
 saveButton.addEventListener('click', () => {
   const { title, language, category, description, video } = getFormInput()
 
-  const Card = new Cards(title, language, category, description, video)
   const isOk = validateInputs(title, language, category, description, video)
   if (isOk) {
+    const Card = new Cards(title, language, category, description, video)
     entries.push(Card)
+    console.log(entries)
+    console.log(Card)
   }
-  console.log(entries)
 })
