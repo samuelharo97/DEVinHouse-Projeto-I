@@ -20,20 +20,18 @@ class Cards {
     this.category = category
     this.description = description
     this.video = video
+    this.RenderCard()
   }
 
   RenderCard() {
     const cardsContainer = document.querySelector('.cards-container')
     cardsContainer.innerHTML = /*html*/ `
         <div class="card">
-        <h2 class="cardTitle">Título</h2>
-            <h4 class="cardSkill">Linguagem/Skill:</h4>
-            <h4 class="cardCategory">Categoria:</h4>
+        <h2 class="cardTitle">${this.title}</h2>
+            <h4 class="cardSkill">Linguagem/Skill: ${this.language}</h4>
+            <h4 class="cardCategory">Categoria: ${this.category.textContent}</h4>
             <p class="cardContent">
-                Mussum Ipsum, cacilds vidis litro abertis. Admodum accumsan
-                disputationi eu sit. Vide electram sadipscing et per. Per aumento de
-                cachacis, eu reclamis. Paisis, filhis, espiritis santis. Cevadis im
-                ampola pa arma uma pindureta.
+                ${this.description}
             </p>
           <div class="card-buttons">
             <button class="cardDelete">
