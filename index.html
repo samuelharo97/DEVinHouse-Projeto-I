@@ -16,10 +16,11 @@
       href="assets/images/book-logo.png"
       type="image/x-png"
     />
+    <script src="/js/index.js" type="module" defer></script>
     <title>DEVinKnowledge</title>
   </head>
   <body>
-    <form action="">
+    <form id="form">
       <header>
         <svg
           width="90"
@@ -63,6 +64,8 @@
           id="title"
           placeholder="Digite um título"
           required
+          minlength="8"
+          maxlength="64"
         />
       </div>
       <div class="input-wrapper">
@@ -73,14 +76,18 @@
           id="skill"
           placeholder="Digite uma linguagem ou skill"
           required
+          minlength="8"
+          maxlength="32"
         />
       </div>
       <div class="input-wrapper">
         <label for="category">Categoria</label>
-        <select name="category" id="category">
-          <option value="" disabled selected>Selecione uma categoria</option>
-          <option value="front">Front-End</option>
-          <option value="back">Back-End</option>
+        <select name="category" id="category" required>
+          <option value="none" disabled selected>
+            Selecione uma categoria
+          </option>
+          <option value="frontEnd">Front-End</option>
+          <option value="backEnd">Back-End</option>
           <option value="fullStack">FullStack</option>
           <option value="softSkill">SoftSkill</option>
         </select>
@@ -92,16 +99,17 @@
           name="description"
           id="description"
           placeholder="Escreva aqui o detalhamento da sua dica..."
+          minlength="16"
+          maxlength="1024"
         ></textarea>
       </div>
-      <!-- resize: none -->
       <div class="input-wrapper">
         <label for="video">Video do YouTube*</label>
-        <input type="text" name="video" id="video" />
+        <input type="url" name="video" id="video" />
       </div>
       <div class="button-wrapper">
-        <button id="clear">Limpar</button>
-        <button id="save">Salvar</button>
+        <button id="clear" type="reset">Limpar</button>
+        <button id="save" type="submit">Salvar</button>
       </div>
     </form>
     <section class="right-side">
@@ -141,25 +149,25 @@
           <img src="/assets/images/clear-icon.png" alt=" clear button" />
         </button>
       </div>
-      <div class="cards-container">
+      <main class="cards-container">
         <div class="card">
-          <h2 id="cardTitle">Título</h2>
-          <h4 id="cardSkill">Linguagem/Skill:</h4>
-          <h4 id="cardCategory">Categoria:</h4>
-          <p id="cardContent">
+          <h2 class="cardTitle">Título</h2>
+          <h4 class="cardSkill">Linguagem/Skill:</h4>
+          <h4 class="cardCategory">Categoria:</h4>
+          <p class="cardContent">
             Mussum Ipsum, cacilds vidis litro abertis. Admodum accumsan
             disputationi eu sit. Vide electram sadipscing et per. Per aumento de
             cachacis, eu reclamis. Paisis, filhis, espiritis santis. Cevadis im
             ampola pa arma uma pindureta.
           </p>
           <div class="card-buttons">
-            <button id="deleteCard">
+            <button class="deleteCard">
               <img src="/assets/images/delete-card.png" alt="deletar a dica" />
             </button>
-            <button id="editCard">
+            <button class="editCard">
               <img src="/assets/images/edit-card.png" alt="editar a dica" />
             </button>
-            <button id="videoCard">
+            <button class="videoCard">
               <img
                 src="/assets/images/video-card.png"
                 alt="video sobre a dica"
@@ -168,23 +176,23 @@
           </div>
         </div>
         <div class="card">
-          <h2 id="cardTitle">Título</h2>
-          <h4 id="cardSkill">Linguagem/Skill:</h4>
-          <h4 id="cardCategory">Categoria:</h4>
-          <p id="cardContent">
+          <h2 class="cardTitle">Título</h2>
+          <h4 class="cardSkill">Linguagem/Skill:</h4>
+          <h4 class="cardCategory">Categoria:</h4>
+          <p class="cardContent">
             Mussum Ipsum, cacilds vidis litro abertis. Admodum accumsan
             disputationi eu sit. Vide electram sadipscing et per. Per aumento de
             cachacis, eu reclamis. Paisis, filhis, espiritis santis. Cevadis im
             ampola pa arma uma pindureta.
           </p>
           <div class="card-buttons">
-            <button id="deleteCard">
+            <button class="deleteCard">
               <img src="/assets/images/delete-card.png" alt="deletar a dica" />
             </button>
-            <button id="editCard">
+            <button class="editCard">
               <img src="/assets/images/edit-card.png" alt="editar a dica" />
             </button>
-            <button id="videoCard">
+            <button class="videoCard">
               <img
                 src="/assets/images/video-card.png"
                 alt="video sobre a dica"
@@ -193,23 +201,23 @@
           </div>
         </div>
         <div class="card">
-          <h2 id="cardTitle">Título</h2>
-          <h4 id="cardSkill">Linguagem/Skill:</h4>
-          <h4 id="cardCategory">Categoria:</h4>
-          <p id="cardContent">
+          <h2 class="cardTitle">Título</h2>
+          <h4 class="cardSkill">Linguagem/Skill:</h4>
+          <h4 class="cardCategory">Categoria:</h4>
+          <p class="cardContent">
             Mussum Ipsum, cacilds vidis litro abertis. Admodum accumsan
             disputationi eu sit. Vide electram sadipscing et per. Per aumento de
             cachacis, eu reclamis. Paisis, filhis, espiritis santis. Cevadis im
             ampola pa arma uma pindureta.
           </p>
           <div class="card-buttons">
-            <button id="deleteCard">
+            <button class="deleteCard">
               <img src="/assets/images/delete-card.png" alt="deletar a dica" />
             </button>
-            <button id="editCard">
+            <button class="editCard">
               <img src="/assets/images/edit-card.png" alt="editar a dica" />
             </button>
-            <button id="videoCard">
+            <button class="videoCard">
               <img
                 src="/assets/images/video-card.png"
                 alt="video sobre a dica"
@@ -217,332 +225,9 @@
             </button>
           </div>
         </div>
-        <div class="card">
-          <h2 id="cardTitle">Título</h2>
-          <h4 id="cardSkill">Linguagem/Skill:</h4>
-          <h4 id="cardCategory">Categoria:</h4>
-          <p id="cardContent">
-            Mussum Ipsum, cacilds vidis litro abertis. Admodum accumsan
-            disputationi eu sit. Vide electram sadipscing et per. Per aumento de
-            cachacis, eu reclamis. Paisis, filhis, espiritis santis. Cevadis im
-            ampola pa arma uma pindureta.
-          </p>
-          <div class="card-buttons">
-            <button id="deleteCard">
-              <img src="/assets/images/delete-card.png" alt="deletar a dica" />
-            </button>
-            <button id="editCard">
-              <img src="/assets/images/edit-card.png" alt="editar a dica" />
-            </button>
-            <button id="videoCard">
-              <img
-                src="/assets/images/video-card.png"
-                alt="video sobre a dica"
-              />
-            </button>
-          </div>
-        </div>
-        <div class="card">
-          <h2 id="cardTitle">Título</h2>
-          <h4 id="cardSkill">Linguagem/Skill:</h4>
-          <h4 id="cardCategory">Categoria:</h4>
-          <p id="cardContent">
-            Mussum Ipsum, cacilds vidis litro abertis. Admodum accumsan
-            disputationi eu sit. Vide electram sadipscing et per. Per aumento de
-            cachacis, eu reclamis. Paisis, filhis, espiritis santis. Cevadis im
-            ampola pa arma uma pindureta.
-          </p>
-          <div class="card-buttons">
-            <button id="deleteCard">
-              <img src="/assets/images/delete-card.png" alt="deletar a dica" />
-            </button>
-            <button id="editCard">
-              <img src="/assets/images/edit-card.png" alt="editar a dica" />
-            </button>
-            <button id="videoCard">
-              <img
-                src="/assets/images/video-card.png"
-                alt="video sobre a dica"
-              />
-            </button>
-          </div>
-        </div>
-        <div class="card">
-          <h2 id="cardTitle">Título</h2>
-          <h4 id="cardSkill">Linguagem/Skill:</h4>
-          <h4 id="cardCategory">Categoria:</h4>
-          <p id="cardContent">
-            Mussum Ipsum, cacilds vidis litro abertis. Admodum accumsan
-            disputationi eu sit. Vide electram sadipscing et per. Per aumento de
-            cachacis, eu reclamis. Paisis, filhis, espiritis santis. Cevadis im
-            ampola pa arma uma pindureta.
-          </p>
-          <div class="card-buttons">
-            <button id="deleteCard">
-              <img src="/assets/images/delete-card.png" alt="deletar a dica" />
-            </button>
-            <button id="editCard">
-              <img src="/assets/images/edit-card.png" alt="editar a dica" />
-            </button>
-            <button id="videoCard">
-              <img
-                src="/assets/images/video-card.png"
-                alt="video sobre a dica"
-              />
-            </button>
-          </div>
-        </div>
-        <div class="card">
-          <h2 id="cardTitle">Título</h2>
-          <h4 id="cardSkill">Linguagem/Skill:</h4>
-          <h4 id="cardCategory">Categoria:</h4>
-          <p id="cardContent">
-            Mussum Ipsum, cacilds vidis litro abertis. Admodum accumsan
-            disputationi eu sit. Vide electram sadipscing et per. Per aumento de
-            cachacis, eu reclamis. Paisis, filhis, espiritis santis. Cevadis im
-            ampola pa arma uma pindureta.
-          </p>
-          <div class="card-buttons">
-            <button id="deleteCard">
-              <img src="/assets/images/delete-card.png" alt="deletar a dica" />
-            </button>
-            <button id="editCard">
-              <img src="/assets/images/edit-card.png" alt="editar a dica" />
-            </button>
-            <button id="videoCard">
-              <img
-                src="/assets/images/video-card.png"
-                alt="video sobre a dica"
-              />
-            </button>
-          </div>
-        </div>
-        <div class="card">
-          <h2 id="cardTitle">Título</h2>
-          <h4 id="cardSkill">Linguagem/Skill:</h4>
-          <h4 id="cardCategory">Categoria:</h4>
-          <p id="cardContent">
-            Mussum Ipsum, cacilds vidis litro abertis. Admodum accumsan
-            disputationi eu sit. Vide electram sadipscing et per. Per aumento de
-            cachacis, eu reclamis. Paisis, filhis, espiritis santis. Cevadis im
-            ampola pa arma uma pindureta.
-          </p>
-          <div class="card-buttons">
-            <button id="deleteCard">
-              <img src="/assets/images/delete-card.png" alt="deletar a dica" />
-            </button>
-            <button id="editCard">
-              <img src="/assets/images/edit-card.png" alt="editar a dica" />
-            </button>
-            <button id="videoCard">
-              <img
-                src="/assets/images/video-card.png"
-                alt="video sobre a dica"
-              />
-            </button>
-          </div>
-        </div>
-        <div class="card">
-          <h2 id="cardTitle">Título</h2>
-          <h4 id="cardSkill">Linguagem/Skill:</h4>
-          <h4 id="cardCategory">Categoria:</h4>
-          <p id="cardContent">
-            Mussum Ipsum, cacilds vidis litro abertis. Admodum accumsan
-            disputationi eu sit. Vide electram sadipscing et per. Per aumento de
-            cachacis, eu reclamis. Paisis, filhis, espiritis santis. Cevadis im
-            ampola pa arma uma pindureta.
-          </p>
-          <div class="card-buttons">
-            <button id="deleteCard">
-              <img src="/assets/images/delete-card.png" alt="deletar a dica" />
-            </button>
-            <button id="editCard">
-              <img src="/assets/images/edit-card.png" alt="editar a dica" />
-            </button>
-            <button id="videoCard">
-              <img
-                src="/assets/images/video-card.png"
-                alt="video sobre a dica"
-              />
-            </button>
-          </div>
-        </div>
-        <div class="card">
-          <h2 id="cardTitle">Título</h2>
-          <h4 id="cardSkill">Linguagem/Skill:</h4>
-          <h4 id="cardCategory">Categoria:</h4>
-          <p id="cardContent">
-            Mussum Ipsum, cacilds vidis litro abertis. Admodum accumsan
-            disputationi eu sit. Vide electram sadipscing et per. Per aumento de
-            cachacis, eu reclamis. Paisis, filhis, espiritis santis. Cevadis im
-            ampola pa arma uma pindureta.
-          </p>
-          <div class="card-buttons">
-            <button id="deleteCard">
-              <img src="/assets/images/delete-card.png" alt="deletar a dica" />
-            </button>
-            <button id="editCard">
-              <img src="/assets/images/edit-card.png" alt="editar a dica" />
-            </button>
-            <button id="videoCard">
-              <img
-                src="/assets/images/video-card.png"
-                alt="video sobre a dica"
-              />
-            </button>
-          </div>
-        </div>
-        <div class="card">
-          <h2 id="cardTitle">Título</h2>
-          <h4 id="cardSkill">Linguagem/Skill:</h4>
-          <h4 id="cardCategory">Categoria:</h4>
-          <p id="cardContent">
-            Mussum Ipsum, cacilds vidis litro abertis. Admodum accumsan
-            disputationi eu sit. Vide electram sadipscing et per. Per aumento de
-            cachacis, eu reclamis. Paisis, filhis, espiritis santis. Cevadis im
-            ampola pa arma uma pindureta.
-          </p>
-          <div class="card-buttons">
-            <button id="deleteCard">
-              <img src="/assets/images/delete-card.png" alt="deletar a dica" />
-            </button>
-            <button id="editCard">
-              <img src="/assets/images/edit-card.png" alt="editar a dica" />
-            </button>
-            <button id="videoCard">
-              <img
-                src="/assets/images/video-card.png"
-                alt="video sobre a dica"
-              />
-            </button>
-          </div>
-        </div>
-        <div class="card">
-          <h2 id="cardTitle">Título</h2>
-          <h4 id="cardSkill">Linguagem/Skill:</h4>
-          <h4 id="cardCategory">Categoria:</h4>
-          <p id="cardContent">
-            Mussum Ipsum, cacilds vidis litro abertis. Admodum accumsan
-            disputationi eu sit. Vide electram sadipscing et per. Per aumento de
-            cachacis, eu reclamis. Paisis, filhis, espiritis santis. Cevadis im
-            ampola pa arma uma pindureta.
-          </p>
-          <div class="card-buttons">
-            <button id="deleteCard">
-              <img src="/assets/images/delete-card.png" alt="deletar a dica" />
-            </button>
-            <button id="editCard">
-              <img src="/assets/images/edit-card.png" alt="editar a dica" />
-            </button>
-            <button id="videoCard">
-              <img
-                src="/assets/images/video-card.png"
-                alt="video sobre a dica"
-              />
-            </button>
-          </div>
-        </div>
-        <div class="card">
-          <h2 id="cardTitle">Título</h2>
-          <h4 id="cardSkill">Linguagem/Skill:</h4>
-          <h4 id="cardCategory">Categoria:</h4>
-          <p id="cardContent">
-            Mussum Ipsum, cacilds vidis litro abertis. Admodum accumsan
-            disputationi eu sit. Vide electram sadipscing et per. Per aumento de
-            cachacis, eu reclamis. Paisis, filhis, espiritis santis. Cevadis im
-            ampola pa arma uma pindureta.
-          </p>
-          <div class="card-buttons">
-            <button id="deleteCard">
-              <img src="/assets/images/delete-card.png" alt="deletar a dica" />
-            </button>
-            <button id="editCard">
-              <img src="/assets/images/edit-card.png" alt="editar a dica" />
-            </button>
-            <button id="videoCard">
-              <img
-                src="/assets/images/video-card.png"
-                alt="video sobre a dica"
-              />
-            </button>
-          </div>
-        </div>
-        <div class="card">
-          <h2 id="cardTitle">Título</h2>
-          <h4 id="cardSkill">Linguagem/Skill:</h4>
-          <h4 id="cardCategory">Categoria:</h4>
-          <p id="cardContent">
-            Mussum Ipsum, cacilds vidis litro abertis. Admodum accumsan
-            disputationi eu sit. Vide electram sadipscing et per. Per aumento de
-            cachacis, eu reclamis. Paisis, filhis, espiritis santis. Cevadis im
-            ampola pa arma uma pindureta.
-          </p>
-          <div class="card-buttons">
-            <button id="deleteCard">
-              <img src="/assets/images/delete-card.png" alt="deletar a dica" />
-            </button>
-            <button id="editCard">
-              <img src="/assets/images/edit-card.png" alt="editar a dica" />
-            </button>
-            <button id="videoCard">
-              <img
-                src="/assets/images/video-card.png"
-                alt="video sobre a dica"
-              />
-            </button>
-          </div>
-        </div>
-        <div class="card">
-          <h2 id="cardTitle">Título</h2>
-          <h4 id="cardSkill">Linguagem/Skill:</h4>
-          <h4 id="cardCategory">Categoria:</h4>
-          <p id="cardContent">
-            Mussum Ipsum, cacilds vidis litro abertis. Admodum accumsan
-            disputationi eu sit. Vide electram sadipscing et per. Per aumento de
-            cachacis, eu reclamis. Paisis, filhis, espiritis santis. Cevadis im
-            ampola pa arma uma pindureta.
-          </p>
-          <div class="card-buttons">
-            <button id="deleteCard">
-              <img src="/assets/images/delete-card.png" alt="deletar a dica" />
-            </button>
-            <button id="editCard">
-              <img src="/assets/images/edit-card.png" alt="editar a dica" />
-            </button>
-            <button id="videoCard">
-              <img
-                src="/assets/images/video-card.png"
-                alt="video sobre a dica"
-              />
-            </button>
-          </div>
-        </div>
-        <div class="card">
-          <h2 id="cardTitle">Título</h2>
-          <h4 id="cardSkill">Linguagem/Skill:</h4>
-          <h4 id="cardCategory">Categoria:</h4>
-          <p id="cardContent">
-            Mussum Ipsum, cacilds vidis litro abertis. Admodum accumsan
-            disputationi eu sit. Vide electram sadipscing et per. Per aumento de
-            cachacis, eu reclamis. Paisis, filhis, espiritis santis. Cevadis im
-            ampola pa arma uma pindureta.
-          </p>
-          <div class="card-buttons">
-            <button id="deleteCard">
-              <img src="/assets/images/delete-card.png" alt="deletar a dica" />
-            </button>
-            <button id="editCard">
-              <img src="/assets/images/edit-card.png" alt="editar a dica" />
-            </button>
-            <button id="videoCard">
-              <img
-                src="/assets/images/video-card.png"
-                alt="video sobre a dica"
-              />
-            </button>
-          </div>
-        </div>
-      </div>
+      </main>
     </section>
   </body>
 </html>
+
+
