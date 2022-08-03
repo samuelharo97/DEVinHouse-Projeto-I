@@ -134,6 +134,10 @@ button:hover {
   background: #ff66d8;
 }
 
+#saveEdit {
+  background: var(--bg-color);
+}
+
 .right-side {
   display: flex;
   flex-direction: column;
@@ -233,6 +237,19 @@ nav button h3 {
   gap: 8px;
   align-self: flex-end;
   margin-top: auto;
+}
+
+.cardContent p {
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  overflow-y: scroll;
+  white-space: pre-wrap; /* CSS3 */
+  white-space: -moz-pre-wrap; /* Firefox */
+  white-space: -pre-wrap; /* Opera <7 */
+  white-space: -o-pre-wrap; /* Opera 7 */
+  word-wrap: break-word; /* IE */
 }
 
 .card-buttons button {

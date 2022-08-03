@@ -1,13 +1,15 @@
 import { Cards } from './cards.js'
 
 const saveButton = document.querySelector('#save')
+const clearButton = document.querySelector('#clear')
 const formTitle = document.querySelector('#title')
 const formLanguage = document.querySelector('#skill')
 const formCategory = document.querySelector('#category')
 const formDescription = document.querySelector('#description')
 const formVideo = document.querySelector('#video')
 const form = document.querySelector('#form')
-
+const saveEdit = document.querySelector('#saveEdit')
+let beingEditedId
 let entries = new Array()
 
 form.addEventListener('submit', event => {
@@ -15,7 +17,58 @@ form.addEventListener('submit', event => {
   event.preventDefault()
 })
 
-function deleteButton() {}
+function editCard(cardId) {
+  const cardIndex = entries.findIndex(object => {
+    return String(object.id) === String(cardId)
+  })
+  const { title, language, category, description, video, id } =
+    entries[cardIndex]
+  console.log(title, language, category, description, video, id)
+  formTitle.value = title
+  formCategory.value = category
+  formDescription.value = description
+  formLanguage.value = language
+  formVideo.value = video
+  beingEditedId = id
+  saveEdit.classList.remove('hidden')
+  clearButton.classList.add('hidden')
+  saveButton.classList.add('hidden')
+}
+
+function finishEdit(cardId, title, language, category, description, video) {
+  const cardIndex = entries.findIndex(object => {
+    return String(object.id) === String(cardId)
+  })
+  entries[cardIndex].title = title
+  entries[cardIndex].language = language
+  entries[cardIndex].category = category
+  entries[cardIndex].description = description
+  entries[cardIndex].video = video
+  saveData()
+  removeAll()
+  loadCards()
+}
+
+saveEdit.addEventListener('click', function () {
+  const confirmed = confirm('Terminou a edição?')
+  if (confirmed) {
+    saveEdit.classList.add('hidden')
+    clearButton.classList.remove('hidden')
+    saveButton.classList.remove('hidden')
+    const { title, language, category, description, video } = getFormInput()
+    validateInputs(title, language, category, description, video)
+    finishEdit(beingEditedId, title, language, category, description, video)
+  }
+})
+
+function removeAll() {
+  const allCards = document.body.querySelectorAll('.card')
+  allCards.forEach(element => {
+    element.remove()
+  })
+}
+
+function calculateCategoryAmount() {}
 
 function getFormInput() {
   const title = formTitle.value
@@ -32,10 +85,7 @@ function isUrlValid(url) {
   )
 }
 
-function render(title, language, category, description, video, id) {
-  if (video == '') {
-    video = '#'
-  }
+function render(title, language, category, description, video, id, hasYoutube) {
   const cardsContainer = document.querySelector('.cards-container')
   cardsContainer.innerHTML += `
     <div class="card" id="${id}">
@@ -52,29 +102,28 @@ function render(title, language, category, description, video, id) {
           <button class="cardEdit">
            <img src="/assets/images/edit-card.png" class="cardEdit" alt="editar a dica" />
           </button>
-          <button class="videoCard">
-            <a href="${video}"
+          <button class="videoCard ${hasYoutube}">
+            <a href="${video}" target="_blank"
               ><img
                 src="/assets/images/video-card.png"
                 alt="video sobre a dica"
-                class="videoCard"
+                class="videoCard"   
             /></a>
           </button>
         </div>
     </div>`
 }
 
-function findCardIndex(cardId) {
-  return entries.id === cardId
-}
-
 function deleteCard(cardId) {
-  const indexOfObject = entries.findIndex(object => {
+  const cardIndex = entries.findIndex(object => {
     return String(object.id) === String(cardId)
   })
+  console.log(entries)
+  entries.splice(cardIndex, 1)
+  saveData()
 }
 
-function saveCard() {
+function saveData() {
   localStorage.setItem('@DEVinKnowledge:', JSON.stringify(entries))
 }
 
@@ -82,9 +131,10 @@ function loadCards() {
   entries = JSON.parse(localStorage.getItem('@DEVinKnowledge:')) || []
 
   entries.forEach(card => {
-    const { title, language, category, description, video, id } = card
+    const { title, language, category, description, video, id, hasYoutube } =
+      card
 
-    render(title, language, category, description, video, id)
+    render(title, language, category, description, video, id, hasYoutube)
   })
 }
 
@@ -115,16 +165,15 @@ function validateInputs(title, language, category, description, video) {
 }
 
 saveButton.addEventListener('click', () => {
-  const { title, language, category, description, video, id } = getFormInput()
+  const { title, language, category, description, video } = getFormInput()
 
   const isOk = validateInputs(title, language, category, description, video)
   if (isOk) {
     const Card = new Cards(title, language, category, description, video)
     entries.push(Card)
-    saveCard()
-    render(title, language, category, description, video, id)
-    console.log(entries)
-    console.log(Card)
+    saveData()
+    removeAll()
+    loadCards()
   }
 })
 
@@ -133,15 +182,24 @@ loadCards()
 const cardsContainer = document.querySelector('main')
 
 cardsContainer.addEventListener('click', event => {
+  const img = event.target
+  const button = img.parentNode
+  const buttonCards = button.parentNode
+  const wholeCard = buttonCards.parentNode
   if (event.target.className === 'cardDelete') {
-    const img = event.target
-    const button = img.parentNode
-    const buttonCards = button.parentNode
-    const wholeCard = buttonCards.parentNode
     if (button.className === 'cardDelete') {
-      /* cardsContainer.removeChild(wholeCard) */
-      deleteCard(wholeCard.id)
-      console.log(wholeCard.id)
+      let confirmed = confirm('Tem certeza que deseja deletar a dica?')
+      if (confirmed) {
+        cardsContainer.removeChild(wholeCard)
+        deleteCard(wholeCard.id)
+      }
+    }
+  } else if (button.className === 'cardEdit') {
+    let confirmed = confirm('Deseja editar a dica?')
+    if (confirmed) {
+      editCard(wholeCard.id)
     }
   }
 })
+
+console.log(entries)
