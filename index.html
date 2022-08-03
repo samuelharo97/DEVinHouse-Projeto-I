@@ -76,8 +76,8 @@
           id="skill"
           placeholder="Digite uma linguagem ou skill"
           required
-          minlength="8"
-          maxlength="32"
+          minlength="4"
+          maxlength="16"
         />
       </div>
       <div class="input-wrapper">
@@ -86,10 +86,10 @@
           <option value="none" disabled selected>
             Selecione uma categoria
           </option>
-          <option value="frontEnd">Front-End</option>
-          <option value="backEnd">Back-End</option>
-          <option value="fullStack">FullStack</option>
-          <option value="softSkill">SoftSkill</option>
+          <option value="Front-End">Front-End</option>
+          <option value="Back-End">Back-End</option>
+          <option value="FullStack">FullStack</option>
+          <option value="SoftSkill">SoftSkill</option>
         </select>
       </div>
 
@@ -99,8 +99,9 @@
           name="description"
           id="description"
           placeholder="Escreva aqui o detalhamento da sua dica..."
-          minlength="16"
-          maxlength="1024"
+          minlength="32"
+          maxlength="512"
+          required
         ></textarea>
       </div>
       <div class="input-wrapper">
