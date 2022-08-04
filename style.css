@@ -98,6 +98,18 @@ form {
   background-size: 1.3em auto, 100%;
 }
 
+#searchInput::-webkit-search-cancel-button {
+  position: relative;
+  right: 20px;
+
+  -webkit-appearance: none;
+  width: 19px;
+  height: 19px;
+  border-radius: 10px;
+  background: url(/assets/images/clear-icon.png);
+  background-size: 1.3em auto, 100%;
+}
+
 .input-wrapper select::-ms-expand {
   display: none;
 }
@@ -184,7 +196,7 @@ nav button h3 {
 }
 
 .search-wrapper input {
-  width: 100%;
+  width: 95%;
   border: solid 2px var(--main-color);
   height: 42px;
   border-radius: 64px;

@@ -10,6 +10,7 @@ const formVideo = document.querySelector('#video')
 const form = document.querySelector('#form')
 const saveEdit = document.querySelector('#saveEdit')
 const searchInput = document.querySelector('#searchInput')
+const resetSearch = document.querySelector('#clearSearch')
 let beingEditedId
 let entries = new Array()
 
@@ -24,7 +25,6 @@ function editCard(cardId) {
   })
   const { title, language, category, description, video, id, hasYoutube } =
     entries[cardIndex]
-  console.log(title, language, category, description, video, id)
   formTitle.value = title
   formCategory.value = category
   formDescription.value = description
@@ -53,6 +53,8 @@ function finishEdit(cardId, title, language, category, description, video) {
   saveData()
   removeAll()
   loadCards()
+  alert('Card editado com sucesso')
+  resetFormInput()
 }
 
 saveEdit.addEventListener('click', function () {
@@ -82,8 +84,6 @@ function removeAll() {
     element.remove()
   })
 }
-
-function calculateCategoryAmount() {}
 
 function getFormInput() {
   const title = formTitle.value
@@ -133,7 +133,6 @@ function deleteCard(cardId) {
   const cardIndex = entries.findIndex(object => {
     return String(object.id) === String(cardId)
   })
-  console.log(entries)
   entries.splice(cardIndex, 1)
   saveData()
 }
@@ -156,7 +155,6 @@ function loadCards() {
       hasYoutube,
       display
     } = card
-    console.log(display)
     if (display) {
       render(
         title,
@@ -170,6 +168,15 @@ function loadCards() {
       )
     }
   })
+  updateCategoryCount()
+}
+
+function resetFormInput() {
+  formTitle.value = ''
+  formCategory.value = ''
+  formDescription.value = ''
+  formLanguage.value = ''
+  formVideo.value = ''
 }
 
 function validateInputs(title, language, category, description, video) {
@@ -212,10 +219,12 @@ saveButton.addEventListener('click', () => {
   const isOk = validateInputs(title, language, category, description, video)
   if (isOk) {
     const Card = new Cards(title, language, category, description, video, true)
-    entries.push(Card)
+    entries.unshift(Card)
     saveData()
     removeAll()
     loadCards()
+    resetFormInput()
+    alert('Dica adicionada com sucesso')
   }
 })
 
@@ -249,7 +258,6 @@ searchInput.addEventListener('input', e => {
   entries.forEach(card => {
     const isVisible = card.title.toLowerCase().includes(value)
     if (!isVisible) {
-      console.log(entries)
       card.display = false
     } else {
       card.display = true
@@ -259,3 +267,33 @@ searchInput.addEventListener('input', e => {
   removeAll()
   loadCards()
 })
+
+function updateCategoryCount() {
+  const totalCounter = document.querySelector('.totalCounter')
+  const frontEndCounter = document.querySelector('.frontEndCounter')
+  const backEndCounter = document.querySelector('.backEndCounter')
+  const fullStackCounter = document.querySelector('.fullStackCounter')
+  const softSkillCounter = document.querySelector('.softSkillCounter')
+  let totalAmount = 0
+
+  const frontEndAmount = entries.filter(
+    card => card.category === 'Front-End'
+  ).length
+  const backEndAmount = entries.filter(
+    card => card.category === 'Back-End'
+  ).length
+  const fullStackAmount = entries.filter(
+    card => card.category === 'FullStack'
+  ).length
+  const SoftSkillAmount = entries.filter(
+    card => card.category === 'SoftSkill'
+  ).length
+  totalAmount =
+    frontEndAmount + backEndAmount + fullStackAmount + SoftSkillAmount
+
+  totalCounter.textContent = totalAmount
+  frontEndCounter.textContent = frontEndAmount
+  backEndCounter.textContent = backEndAmount
+  fullStackCounter.textContent = fullStackAmount
+  softSkillCounter.textContent = SoftSkillAmount
+}
