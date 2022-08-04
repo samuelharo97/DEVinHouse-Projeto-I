@@ -9,6 +9,7 @@ const formDescription = document.querySelector('#description')
 const formVideo = document.querySelector('#video')
 const form = document.querySelector('#form')
 const saveEdit = document.querySelector('#saveEdit')
+const searchInput = document.querySelector('#searchInput')
 let beingEditedId
 let entries = new Array()
 
@@ -21,7 +22,7 @@ function editCard(cardId) {
   const cardIndex = entries.findIndex(object => {
     return String(object.id) === String(cardId)
   })
-  const { title, language, category, description, video, id } =
+  const { title, language, category, description, video, id, hasYoutube } =
     entries[cardIndex]
   console.log(title, language, category, description, video, id)
   formTitle.value = title
@@ -44,6 +45,11 @@ function finishEdit(cardId, title, language, category, description, video) {
   entries[cardIndex].category = category
   entries[cardIndex].description = description
   entries[cardIndex].video = video
+  if (formVideo.value == '') {
+    entries[cardIndex].hasYoutube = `hidden`
+  } else {
+    entries[cardIndex].hasYoutube = true
+  }
   saveData()
   removeAll()
   loadCards()
@@ -55,9 +61,18 @@ saveEdit.addEventListener('click', function () {
     saveEdit.classList.add('hidden')
     clearButton.classList.remove('hidden')
     saveButton.classList.remove('hidden')
-    const { title, language, category, description, video } = getFormInput()
+    const { title, language, category, description, video, hasYoutube } =
+      getFormInput()
     validateInputs(title, language, category, description, video)
-    finishEdit(beingEditedId, title, language, category, description, video)
+    finishEdit(
+      beingEditedId,
+      title,
+      language,
+      category,
+      description,
+      video,
+      hasYoutube
+    )
   }
 })
 
@@ -131,10 +146,29 @@ function loadCards() {
   entries = JSON.parse(localStorage.getItem('@DEVinKnowledge:')) || []
 
   entries.forEach(card => {
-    const { title, language, category, description, video, id, hasYoutube } =
-      card
-
-    render(title, language, category, description, video, id, hasYoutube)
+    const {
+      title,
+      language,
+      category,
+      description,
+      video,
+      id,
+      hasYoutube,
+      display
+    } = card
+    console.log(display)
+    if (display) {
+      render(
+        title,
+        language,
+        category,
+        description,
+        video,
+        id,
+        hasYoutube,
+        display
+      )
+    }
   })
 }
 
@@ -142,12 +176,16 @@ function validateInputs(title, language, category, description, video) {
   let validation = true
 
   if (title.length < 8 || title.length > 64 || title.value == '') {
+    alert('Título deve ter entre 8 e 64 caracteres, tente outra vez.')
     validation = false
   } else if (
     language.length < 4 ||
     language.length > 16 ||
     language.value == ''
   ) {
+    alert(
+      'O campo linguagem/skill deve ter entre 4 e 16 caracteres, tente outra vez.'
+    )
     validation = false
   } else if (category === 'none') {
     alert('Você precisa selecionar uma categoria.')
@@ -159,7 +197,11 @@ function validateInputs(title, language, category, description, video) {
   ) {
     alert('A descrição é obrigatória e precisa ter entre 32 e 512 caracteres.')
     validation = false
-  } else if (!isUrlValid(video) && video.value != '') {
+  } else if (video.value != undefined) {
+    if (!isUrlValid(video)) {
+      alert('URL Inválida, tente outra vez.')
+      validation = false
+    }
   }
   return validation
 }
@@ -169,7 +211,7 @@ saveButton.addEventListener('click', () => {
 
   const isOk = validateInputs(title, language, category, description, video)
   if (isOk) {
-    const Card = new Cards(title, language, category, description, video)
+    const Card = new Cards(title, language, category, description, video, true)
     entries.push(Card)
     saveData()
     removeAll()
@@ -202,4 +244,18 @@ cardsContainer.addEventListener('click', event => {
   }
 })
 
-console.log(entries)
+searchInput.addEventListener('input', e => {
+  const value = e.target.value.toLowerCase()
+  entries.forEach(card => {
+    const isVisible = card.title.toLowerCase().includes(value)
+    if (!isVisible) {
+      console.log(entries)
+      card.display = false
+    } else {
+      card.display = true
+    }
+    saveData()
+  })
+  removeAll()
+  loadCards()
+})
