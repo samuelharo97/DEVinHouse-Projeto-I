@@ -138,6 +138,8 @@ form {
   height: 42px;
   border-radius: 64px;
   color: white;
+  font-size: 18px;
+  font-weight: 700;
 }
 
 form label {
@@ -152,11 +154,23 @@ button:hover {
   background: hsla(133, 60%, 52%, 1);
 }
 
+#save:hover {
+  background: hsla(133, 60%, 52%, 0.51);
+}
+
 #clear {
   background: #ff66d8;
 }
 
+#clear:hover {
+  background: hsla(315, 100%, 70%, 0.5);
+}
+
 #saveEdit {
+  background: hsla(187, 61%, 74%, 0.5);
+}
+
+#saveEdit:hover {
   background: var(--bg-color);
 }
 
@@ -174,6 +188,11 @@ button:hover {
 nav {
   display: flex;
   justify-content: space-between;
+}
+
+.right-side span {
+  font-size: 20px;
+  font-family: var(--cards-main-font);
 }
 
 nav button {
