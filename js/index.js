@@ -182,7 +182,7 @@ function loadCards() {
 
 function resetFormInput() {
   formTitle.value = ''
-  formCategory.value = 'none'
+  formCategory.value = 'nonenone'
   formDescription.value = ''
   formLanguage.value = ''
   formVideo.value = ''
