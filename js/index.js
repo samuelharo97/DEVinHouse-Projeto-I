@@ -299,6 +299,7 @@ saveEdit.addEventListener('click', function () {
   }
 })
 
+//event listener inspirado por estudos deste video https://youtu.be/PqAaHf7JKls
 cardsContainer.addEventListener('click', event => {
   const img = event.target
   const button = img.parentNode
