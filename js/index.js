@@ -34,7 +34,15 @@ function expandCard(cardId) {
   expandedSkill.textContent = `Linguagem/Skill: ${language}`
   expandedCategory.textContent = `Categoria: ${category}`
   expandedDescription.textContent = description
-  const videoUrl = video.substring(video.indexOf('=') + 1)
+  let videoUrl = ''
+  if (video.length > 35) {
+    // só funciona se a url tiver um /watch?v=
+    videoUrl = video.substring(video.indexOf('=') + 1)
+  } else {
+    // url curta exemplo https://youtu.be/pK49bPkq69E
+    videoUrl = video.split('/')[3]
+  }
+
   expandedVideo.src = `https://www.youtube.com/embed/${videoUrl}`
   if (hasYoutube == 'hidden') {
     expandedVideo.classList.add('hidden')
