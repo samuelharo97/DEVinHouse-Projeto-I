@@ -43,6 +43,103 @@ function expandCard(cardId) {
   }
 }
 
+saveEdit.addEventListener('click', function () {
+  const confirmed = confirm('Terminou a edição?')
+  if (confirmed) {
+    saveEdit.classList.add('hidden')
+    clearButton.classList.remove('hidden')
+    saveButton.classList.remove('hidden')
+    const { title, language, category, description, video, hasYoutube } =
+      getFormInput()
+    validateInputs(title, language, category, description, video)
+    finishEdit(
+      beingEditedId,
+      title,
+      language,
+      category,
+      description,
+      video,
+      hasYoutube
+    )
+  }
+})
+
+saveButton.addEventListener('click', () => {
+  const { title, language, category, description, video } = getFormInput()
+
+  const isOk = validateInputs(title, language, category, description, video)
+  if (isOk) {
+    const Card = new Cards(title, language, category, description, video, true)
+    entries.unshift(Card)
+    saveData()
+    removeAll()
+    loadCards()
+    resetFormInput()
+    alert('Dica adicionada com sucesso')
+  }
+})
+
+cardsContainer.addEventListener('click', event => {
+  const img = event.target
+  const button = img.parentNode
+  const buttonCards = button.parentNode
+  const wholeCard = buttonCards.parentNode
+  if (event.target.className === 'cardDelete') {
+    if (button.className === 'cardDelete') {
+      let confirmed = confirm('Tem certeza que deseja deletar a dica?')
+      if (confirmed) {
+        cardsContainer.removeChild(wholeCard)
+        deleteCard(wholeCard.id)
+      }
+    }
+  } else if (button.className === 'cardEdit') {
+    let confirmed = confirm('Deseja editar a dica?')
+    if (confirmed) {
+      editCard(wholeCard.id)
+    }
+  } else if (button.className === 'expand-card') {
+    cardsContainer.classList.add('hidden')
+    expandCard(wholeCard.id)
+  }
+})
+
+//search-bar inspirada pelo estudo deste video: https://www.youtube.com/watch?v=TlP5WIxVirU
+searchInput.addEventListener('input', e => {
+  const value = e.target.value.toLowerCase()
+  entries.forEach(card => {
+    const isVisible = card.title.toLowerCase().includes(value)
+    if (!isVisible) {
+      card.display = false
+    } else {
+      card.display = true
+    }
+    saveData()
+  })
+  removeAll()
+  loadCards()
+})
+
+closeExpanded.addEventListener('click', function () {
+  expandedCard.classList.add('hidden')
+  cardsContainer.classList.remove('hidden')
+})
+
+function expandCard(cardId) {
+  const cardIndex = entries.findIndex(object => {
+    return String(object.id) === String(cardId)
+  })
+  const { title, language, category, description, video, id, hasYoutube } =
+    entries[cardIndex]
+
+  expandedCard.classList.remove('hidden')
+  expandedTitle.textContent = title
+  expandedSkill.textContent = `Linguagem/Skill: ${language}`
+  expandedCategory.textContent = `Categoria: ${category}`
+  expandedDescription.textContent = description
+  const videoUrl = video.substring(video.indexOf('=') + 1)
+  expandedVideo.src = `https://www.youtube.com/embed/${videoUrl}`
+}
+
 function editCard(cardId) {
   const cardIndex = entries.findIndex(object => {
     return String(object.id) === String(cardId)
@@ -143,6 +240,7 @@ function deleteCard(cardId) {
   })
   entries.splice(cardIndex, 1)
   saveData()
+  alert('Dica deletada com sucesso.')
 }
 
 function saveData() {
@@ -250,7 +348,7 @@ function updateCategoryCount() {
   softSkillCounter.textContent = SoftSkillAmount
 }
 
-loadCards()
+
 
 saveButton.addEventListener('click', () => {
   const { title, language, category, description, video } = getFormInput()
@@ -339,3 +437,6 @@ closeExpanded.addEventListener('click', function () {
   expandedCard.classList.add('hidden')
   cardsContainer.classList.remove('hidden')
 })
+
+loadCards()
+
