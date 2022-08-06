@@ -105,7 +105,7 @@
         ></textarea>
       </div>
       <div class="input-wrapper">
-        <label for="video">Link para artigo ou video:</label>
+        <label for="video">Link para video no YouTube:</label>
         <input type="url" name="video" id="video" />
       </div>
       <div class="button-wrapper">
@@ -120,23 +120,23 @@
       <nav>
         <button id="total">
           <h3>Total</h3>
-          <span class="totalCounter">15</span>
+          <span class="totalCounter"></span>
         </button>
         <button id="frontEndButton">
           <h3>FrontEnd</h3>
-          <span class="frontEndCounter">15</span>
+          <span class="frontEndCounter"></span>
         </button>
         <button id="backEndButton">
           <h3>BackEnd</h3>
-          <span class="backEndCounter">15</span>
+          <span class="backEndCounter"></span>
         </button>
         <button id="fullStackButton">
           <h3>FullStack</h3>
-          <span class="fullStackCounter">15</span>
+          <span class="fullStackCounter"></span>
         </button>
         <button id="SoftSkillButton">
           <h3>SoftSkill</h3>
-          <span class="softSkillCounter">15</span>
+          <span class="softSkillCounter"></span>
         </button>
       </nav>
       <div class="search-wrapper">
@@ -147,7 +147,28 @@
           placeholder="Digite um título para buscar.."
         />
       </div>
-      <main class="cards-container"></main>
+      <ul class="cards-container"></ul>
+      <article id="extended" class="hidden">
+        <div class="extended-card">
+          <h2 class="extended-title"></h2>
+          <h3 class="extended-skill"></h3>
+          <h3 class="extended-category"></h3>
+          <p class="extended-description"></p>
+          <div>
+            <iframe
+              id="extended-video"
+              width="2072"
+              height="874"
+              src="https://www.youtube.com/embed/vRvl3b2d1gg"
+              title=""
+              frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen
+            ></iframe>
+            <button class="close-expanded"><img src="assets/images/clear-icon.png" alt="" /></button>
+          </div>
+        </div>
+      </article>
     </section>
   </body>
 </html>
