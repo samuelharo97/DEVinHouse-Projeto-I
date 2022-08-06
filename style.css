@@ -317,11 +317,6 @@ nav button h3 {
 }
 
 .extended-card {
-<<<<<<< HEAD
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-evenly;
   background: #f8f7f9;
   border-radius: 20px;
   filter: drop-shadow(2px 2px 5px rgba(0, 0, 0, 0.25));
@@ -364,16 +359,11 @@ iframe {
 }
 
 article {
-<<<<<<< HEAD
-  height: 80%;
-  width: 100%;
-=======
   width: 100%;
   height: 68vh;
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
->>>>>>> 46ee2c74e4b383216481053090b40ba46a02f1c6
 }
 
 @media (max-width: 1050px) {
