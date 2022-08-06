@@ -365,3 +365,10 @@ article {
   flex-direction: column;
   justify-content: space-evenly;
 }
+
+@media (max-width: 1050px) {
+  body {
+    min-width: 1050px;
+    width: 100%;
+  }
+}

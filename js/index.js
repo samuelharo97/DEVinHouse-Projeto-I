@@ -22,92 +22,6 @@ const cardsContainer = document.querySelector('ul')
 let beingEditedId
 let entries = new Array()
 
-form.addEventListener('submit', event => {
-  event = event || window.event
-  event.preventDefault()
-})
-
-saveEdit.addEventListener('click', function () {
-  const confirmed = confirm('Terminou a edição?')
-  if (confirmed) {
-    saveEdit.classList.add('hidden')
-    clearButton.classList.remove('hidden')
-    saveButton.classList.remove('hidden')
-    const { title, language, category, description, video, hasYoutube } =
-      getFormInput()
-    validateInputs(title, language, category, description, video)
-    finishEdit(
-      beingEditedId,
-      title,
-      language,
-      category,
-      description,
-      video,
-      hasYoutube
-    )
-  }
-})
-
-saveButton.addEventListener('click', () => {
-  const { title, language, category, description, video } = getFormInput()
-
-  const isOk = validateInputs(title, language, category, description, video)
-  if (isOk) {
-    const Card = new Cards(title, language, category, description, video, true)
-    entries.unshift(Card)
-    saveData()
-    removeAll()
-    loadCards()
-    resetFormInput()
-    alert('Dica adicionada com sucesso')
-  }
-})
-
-cardsContainer.addEventListener('click', event => {
-  const img = event.target
-  const button = img.parentNode
-  const buttonCards = button.parentNode
-  const wholeCard = buttonCards.parentNode
-  if (event.target.className === 'cardDelete') {
-    if (button.className === 'cardDelete') {
-      let confirmed = confirm('Tem certeza que deseja deletar a dica?')
-      if (confirmed) {
-        cardsContainer.removeChild(wholeCard)
-        deleteCard(wholeCard.id)
-      }
-    }
-  } else if (button.className === 'cardEdit') {
-    let confirmed = confirm('Deseja editar a dica?')
-    if (confirmed) {
-      editCard(wholeCard.id)
-    }
-  } else if (button.className === 'expand-card') {
-    cardsContainer.classList.add('hidden')
-    expandCard(wholeCard.id)
-  }
-})
-
-//search-bar inspirada pelo estudo deste video: https://www.youtube.com/watch?v=TlP5WIxVirU
-searchInput.addEventListener('input', e => {
-  const value = e.target.value.toLowerCase()
-  entries.forEach(card => {
-    const isVisible = card.title.toLowerCase().includes(value)
-    if (!isVisible) {
-      card.display = false
-    } else {
-      card.display = true
-    }
-    saveData()
-  })
-  removeAll()
-  loadCards()
-})
-
-closeExpanded.addEventListener('click', function () {
-  expandedCard.classList.add('hidden')
-  cardsContainer.classList.remove('hidden')
-})
-
 function expandCard(cardId) {
   const cardIndex = entries.findIndex(object => {
     return String(object.id) === String(cardId)
@@ -122,6 +36,11 @@ function expandCard(cardId) {
   expandedDescription.textContent = description
   const videoUrl = video.substring(video.indexOf('=') + 1)
   expandedVideo.src = `https://www.youtube.com/embed/${videoUrl}`
+  if (hasYoutube == 'hidden') {
+    expandedVideo.classList.add('hidden')
+  } else {
+    expandedVideo.classList.remove('hidden')
+  }
 }
 
 function editCard(cardId) {
@@ -263,7 +182,7 @@ function loadCards() {
 
 function resetFormInput() {
   formTitle.value = ''
-  formCategory.value = ''
+  formCategory.value = 'none'
   formDescription.value = ''
   formLanguage.value = ''
   formVideo.value = ''
@@ -272,14 +191,10 @@ function resetFormInput() {
 function validateInputs(title, language, category, description, video) {
   let validation = true
 
-  if (title.length < 8 || title.length > 64 || title.value == '') {
+  if (title.length < 8 || title.length > 64 || title == '') {
     alert('Título deve ter entre 8 e 64 caracteres, tente outra vez.')
     validation = false
-  } else if (
-    language.length < 4 ||
-    language.length > 16 ||
-    language.value == ''
-  ) {
+  } else if (language.length < 4 || language.length > 16 || language == '') {
     alert(
       'O campo linguagem/skill deve ter entre 4 e 16 caracteres, tente outra vez.'
     )
@@ -290,11 +205,12 @@ function validateInputs(title, language, category, description, video) {
   } else if (
     description.length < 32 ||
     description.length > 512 ||
-    description.value == ''
+    description == ''
   ) {
     alert('A descrição é obrigatória e precisa ter entre 32 e 512 caracteres.')
     validation = false
-  } else if (video.value != undefined) {
+  } else if (video != '') {
+    console.log('entrou aqui')
     if (!isUrlValid(video)) {
       alert('URL Inválida, tente outra vez.')
       validation = false
@@ -332,5 +248,92 @@ function updateCategoryCount() {
   fullStackCounter.textContent = fullStackAmount
   softSkillCounter.textContent = SoftSkillAmount
 }
+
+saveButton.addEventListener('click', () => {
+  const { title, language, category, description, video } = getFormInput()
+  const isOk = validateInputs(title, language, category, description, video)
+
+  if (isOk) {
+    const Card = new Cards(title, language, category, description, video, true)
+    entries.unshift(Card)
+    saveData()
+    removeAll()
+    loadCards()
+    resetFormInput()
+    alert('Dica adicionada com sucesso')
+  }
+})
+
+form.addEventListener('submit', event => {
+  event = event || window.event
+  event.preventDefault()
+})
+
+saveEdit.addEventListener('click', function () {
+  const confirmed = confirm('Terminou a edição?')
+  if (confirmed) {
+    saveEdit.classList.add('hidden')
+    clearButton.classList.remove('hidden')
+    saveButton.classList.remove('hidden')
+    const { title, language, category, description, video, hasYoutube } =
+      getFormInput()
+
+    validateInputs(title, language, category, description, video)
+    finishEdit(
+      beingEditedId,
+      title,
+      language,
+      category,
+      description,
+      video,
+      hasYoutube
+    )
+  }
+})
+
+cardsContainer.addEventListener('click', event => {
+  const img = event.target
+  const button = img.parentNode
+  const buttonCards = button.parentNode
+  const wholeCard = buttonCards.parentNode
+  if (event.target.className === 'cardDelete') {
+    if (button.className === 'cardDelete') {
+      let confirmed = confirm('Tem certeza que deseja deletar a dica?')
+      if (confirmed) {
+        cardsContainer.removeChild(wholeCard)
+        deleteCard(wholeCard.id)
+      }
+    }
+  } else if (button.className === 'cardEdit') {
+    let confirmed = confirm('Deseja editar a dica?')
+    if (confirmed) {
+      editCard(wholeCard.id)
+    }
+  } else if (button.className === 'expand-card') {
+    cardsContainer.classList.add('hidden')
+    expandCard(wholeCard.id)
+  }
+})
+
+//search-bar inspirada pelo estudo deste video: https://www.youtube.com/watch?v=TlP5WIxVirU
+searchInput.addEventListener('input', e => {
+  const value = e.target.value.toLowerCase()
+  entries.forEach(card => {
+    const isVisible = card.title.toLowerCase().includes(value)
+    if (!isVisible) {
+      card.display = false
+    } else {
+      card.display = true
+    }
+    saveData()
+  })
+  removeAll()
+  loadCards()
+})
+
+closeExpanded.addEventListener('click', function () {
+  expandedCard.classList.add('hidden')
+  cardsContainer.classList.remove('hidden')
+})
 
 loadCards()
