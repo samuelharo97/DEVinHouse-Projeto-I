@@ -306,3 +306,54 @@ nav button h3 {
   display: flex;
   flex-wrap: wrap;
 }
+
+.extended-card {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  background: #f8f7f9;
+  border-radius: 20px;
+  filter: drop-shadow(2px 2px 5px rgba(0, 0, 0, 0.25));
+  padding: 0 50px;
+}
+
+.extended-card button {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 20px;
+  background: transparent;
+  border: none;
+}
+
+.right-side button:hover {
+  transform: scale(115%);
+}
+
+.extended-card h2 {
+  text-align: center;
+}
+
+.extended-video {
+  text-align: center;
+}
+
+iframe {
+  display: block;
+  margin: auto;
+  width: 380px;
+  height: 200px;
+}
+
+.expand-card {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 8px;
+}
+
+article {
+  height: 80%;
+  width: 100%;
+}

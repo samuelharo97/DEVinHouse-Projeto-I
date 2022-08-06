@@ -10,7 +10,13 @@ const formVideo = document.querySelector('#video')
 const form = document.querySelector('#form')
 const saveEdit = document.querySelector('#saveEdit')
 const searchInput = document.querySelector('#searchInput')
-const resetSearch = document.querySelector('#clearSearch')
+const expandedCard = document.querySelector('article')
+const expandedTitle = document.querySelector('.extended-title')
+const expandedSkill = document.querySelector('.extended-skill')
+const expandedCategory = document.querySelector('.extended-category')
+const expandedDescription = document.querySelector('.extended-description')
+const expandedVideo = document.querySelector('#extended-video')
+const closeExpanded = document.querySelector('.close-expanded')
 let beingEditedId
 let entries = new Array()
 
@@ -18,6 +24,22 @@ form.addEventListener('submit', event => {
   event = event || window.event
   event.preventDefault()
 })
+
+function expandCard(cardId) {
+  const cardIndex = entries.findIndex(object => {
+    return String(object.id) === String(cardId)
+  })
+  const { title, language, category, description, video, id, hasYoutube } =
+    entries[cardIndex]
+
+  expandedCard.classList.remove('hidden')
+  expandedTitle.textContent = title
+  expandedSkill.textContent = `Linguagem/Skill: ${language}`
+  expandedCategory.textContent = `Categoria: ${category}`
+  expandedDescription.textContent = description
+  const videoUrl = video.substring(video.indexOf('=') + 1)
+  expandedVideo.src = `https://www.youtube.com/embed/${videoUrl}`
+}
 
 function editCard(cardId) {
   const cardIndex = entries.findIndex(object => {
@@ -103,7 +125,8 @@ function isUrlValid(url) {
 function render(title, language, category, description, video, id, hasYoutube) {
   const cardsContainer = document.querySelector('.cards-container')
   cardsContainer.innerHTML += `
-    <div class="card" id="${id}">
+    <li class="card" id="${id}">
+          
           <h2 class="cardTitle">${title}</h2>
           <h4 class="cardSkill">Linguagem/Skill: ${language}</h4>
           <h4 class="cardCategory">Categoria: ${category}</h4>
@@ -125,8 +148,11 @@ function render(title, language, category, description, video, id, hasYoutube) {
                 class="videoCard"   
             /></a>
           </button>
+          <button class="expand-card">
+            <img src="/assets/images/launch-icon.png" class="expand-card" alt="expande a dica" />
+          </button>
         </div>
-    </div>`
+    </li>`
 }
 
 function deleteCard(cardId) {
@@ -230,7 +256,7 @@ saveButton.addEventListener('click', () => {
 
 loadCards()
 
-const cardsContainer = document.querySelector('main')
+const cardsContainer = document.querySelector('ul')
 
 cardsContainer.addEventListener('click', event => {
   const img = event.target
@@ -250,6 +276,9 @@ cardsContainer.addEventListener('click', event => {
     if (confirmed) {
       editCard(wholeCard.id)
     }
+  } else if (button.className === 'expand-card') {
+    cardsContainer.classList.add('hidden')
+    expandCard(wholeCard.id)
   }
 })
 
@@ -297,3 +326,8 @@ function updateCategoryCount() {
   fullStackCounter.textContent = fullStackAmount
   softSkillCounter.textContent = SoftSkillAmount
 }
+
+closeExpanded.addEventListener('click', function () {
+  expandedCard.classList.add('hidden')
+  cardsContainer.classList.remove('hidden')
+})
