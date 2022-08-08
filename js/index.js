@@ -87,6 +87,7 @@ function finishEdit(cardId, title, language, category, description, video) {
   loadCards()
   alert('Card editado com sucesso')
   resetFormInput()
+  updateCategoryCount()
 }
 
 function removeAll() {
@@ -150,6 +151,7 @@ function deleteCard(cardId) {
     return String(object.id) === String(cardId)
   })
   entries.splice(cardIndex, 1)
+  updateCategoryCount()
   saveData()
   alert('Dica deletada com sucesso.')
 }
